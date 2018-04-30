@@ -6,6 +6,7 @@ import ru.malltshik.transferservice.repositories.AccountRepository;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.swing.text.html.parser.Entity;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class AccountRepositoryImpl implements AccountRepository {
@@ -25,8 +26,14 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Account save(Account account) {
+        em.getTransaction().begin();
         em.persist(account);
-        em.flush();
+        em.getTransaction().commit();
         return account;
+    }
+
+    @Override
+    public void delete(Account account) {
+        em.remove(account);
     }
 }

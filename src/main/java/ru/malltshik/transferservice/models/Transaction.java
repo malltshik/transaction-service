@@ -2,11 +2,15 @@ package ru.malltshik.transferservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import ru.malltshik.transferservice.validations.annatations.ExistedEntity;
+import ru.malltshik.transferservice.models.enums.TransactionStatus;
+import ru.malltshik.transferservice.validations.annatations.ExistedAccount;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import static ru.malltshik.transferservice.models.enums.TransactionStatus.NEW;
 
 
 @Entity
@@ -19,14 +23,16 @@ public class Transaction {
     private Long id;
 
     @NotNull(message = "Recipient ID is required")
-    @ExistedEntity(message = "Recipient account doesn't exist", target = Account.class)
+    @ExistedAccount(message = "Recipient account doesn't exist")
     private Long recipientId;
 
     @NotNull(message = "Sender ID is required")
-    @ExistedEntity(message = "Recipient account doesn't exist", target = Account.class)
+    @ExistedAccount(message = "Sender account doesn't exist")
     private Long senderId;
 
     @NotNull(message = "Transaction amount is required")
     private Long amount;
+
+    private TransactionStatus status = NEW;
 
 }

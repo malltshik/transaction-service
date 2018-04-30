@@ -9,4 +9,6 @@ public interface TransactionRepository {
     List<Transaction> findTransactions();
 
     Transaction save(Transaction transaction);
+
+    Transaction getOne(Long id);
 }

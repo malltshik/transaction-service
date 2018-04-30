@@ -5,6 +5,7 @@ import ru.malltshik.transferservice.services.TransferService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -22,6 +23,12 @@ public class TransferController {
     @GET
     public List<Transaction> findTransactions() {
         return transferService.findTransactions();
+    }
+
+    @GET
+    @Path("{id}")
+    public Transaction getOn(@PathParam("id") Long id) {
+        return transferService.getOne(id);
     }
 
     @POST
