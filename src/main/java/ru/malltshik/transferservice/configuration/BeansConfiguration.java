@@ -9,8 +9,6 @@ import ru.malltshik.transferservice.services.TransferService;
 import ru.malltshik.transferservice.services.implementations.TransferServiceImpl;
 
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 
 public class BeansConfiguration extends AbstractBinder {
 
@@ -25,8 +23,7 @@ public class BeansConfiguration extends AbstractBinder {
         bind(TransferServiceImpl.class).to(TransferService.class).in(Singleton.class);
         bind(TransactionRepositoryImpl.class).to(TransactionRepository.class).in(Singleton.class);
         bind(AccountRepositoryImpl.class).to(AccountRepository.class).in(Singleton.class);
-        bind(Persistence.createEntityManagerFactory(production ? "db" : "dbtest").createEntityManager())
-                .to(EntityManager.class);
         bind(new ConstraintViolationMapper());
+        bind(production ? "production" : "testing").to(String.class).named("profile");
     }
 }

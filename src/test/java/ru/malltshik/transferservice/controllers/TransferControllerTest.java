@@ -10,22 +10,21 @@ import ru.malltshik.transferservice.configuration.BeansConfiguration;
 import ru.malltshik.transferservice.models.Account;
 import ru.malltshik.transferservice.models.Transaction;
 import ru.malltshik.transferservice.repositories.AccountRepository;
+import ru.malltshik.transferservice.repositories.implementations.AccountRepositoryImpl;
 
 import javax.inject.Inject;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Min;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static ru.malltshik.transferservice.models.enums.TransactionStatus.NEW;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static ru.malltshik.transferservice.models.enums.TransactionStatus.COMPLETED;
 
 public class TransferControllerTest {
 
@@ -48,7 +47,7 @@ public class TransferControllerTest {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        if(server != null) server.shutdownNow();
+        if (server != null) server.shutdownNow();
     }
 
     @Before
@@ -63,26 +62,30 @@ public class TransferControllerTest {
 
     @After
     public void after() {
-        if(a1 != null) accountRepository.delete(a1);
-        if(a2 != null) accountRepository.delete(a2);
+        if (a1 != null) accountRepository.delete(a1);
+        if (a2 != null) accountRepository.delete(a2);
     }
 
     @Test
     public void applyTransaction() throws Exception {
-        Transaction t = new Transaction(null, a2.getId(), a1.getId(), 100L, null);
+        Transaction t = new Transaction(null, a2.getId(), a1.getId(), 100L, null, null);
         Response response = target.request().post(Entity.json(t));
         String data = response.readEntity(String.class);
         Transaction rt = new ObjectMapper().readValue(data, Transaction.class);
         assertNotNull(rt);
         assertNotNull(rt.getId());
-        assertEquals(rt.getStatus(), NEW);
+        assertEquals(rt.getStatus(), COMPLETED);
+        assertEquals(accountRepository.getOne(a2.getId()).getAmount(), a1.getAmount());
+        assertEquals(accountRepository.getOne(a1.getId()).getAmount(), a2.getAmount());
         this.t = rt;
+
     }
 
     @Test
     public void findTransactions() throws Exception {
         applyTransaction();
-        List<Transaction> transactions = target.request().get().readEntity(new GenericType<List<Transaction>>(){});
+        List<Transaction> transactions = target.request().get().readEntity(new GenericType<List<Transaction>>() {
+        });
         assertEquals(transactions.isEmpty(), false);
     }
 

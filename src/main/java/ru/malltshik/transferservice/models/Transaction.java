@@ -2,7 +2,6 @@ package ru.malltshik.transferservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.malltshik.transferservice.models.enums.TransactionStatus;
 import ru.malltshik.transferservice.validations.annatations.ExistedAccount;
@@ -10,12 +9,12 @@ import ru.malltshik.transferservice.validations.annatations.ExistedAccount;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import static ru.malltshik.transferservice.models.enums.TransactionStatus.NEW;
-
 
 @Entity
 @Table(name = "transaction")
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transaction {
 
     @Id
@@ -33,6 +32,7 @@ public class Transaction {
     @NotNull(message = "Transaction amount is required")
     private Long amount;
 
-    private TransactionStatus status = NEW;
+    private TransactionStatus status;
+    private String statusTitle;
 
 }

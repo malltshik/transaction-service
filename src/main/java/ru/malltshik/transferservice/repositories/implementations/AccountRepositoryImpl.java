@@ -4,15 +4,21 @@ import ru.malltshik.transferservice.models.Account;
 import ru.malltshik.transferservice.repositories.AccountRepository;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.swing.text.html.parser.Entity;
-import javax.transaction.Transactional;
+import javax.persistence.Persistence;
 import java.util.List;
 
 public class AccountRepositoryImpl implements AccountRepository {
 
+
     @Inject
-    private EntityManager em;
+    @Named("profile")
+    private String profile;
+
+    private EntityManager em = Persistence
+            .createEntityManagerFactory("production".equals(profile) ? "db" : "dbtest")
+            .createEntityManager();
 
     @Override
     public List<Account> findAll() {
@@ -21,13 +27,19 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Account getOne(Long id) {
+        if (id == null) return null;
         return em.find(Account.class, id);
     }
 
     @Override
     public Account save(Account account) {
         em.getTransaction().begin();
-        em.persist(account);
+        if (getOne(account.getId()) != null) {
+            em.merge(account);
+        } else {
+            em.persist(account);
+        }
+        em.flush();
         em.getTransaction().commit();
         return account;
     }

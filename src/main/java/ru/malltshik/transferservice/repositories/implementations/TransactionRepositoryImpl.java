@@ -4,16 +4,19 @@ import ru.malltshik.transferservice.models.Transaction;
 import ru.malltshik.transferservice.repositories.TransactionRepository;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.TransactionScoped;
-import javax.transaction.Transactional;
+import javax.persistence.Persistence;
 import java.util.List;
 
 public class TransactionRepositoryImpl implements TransactionRepository {
 
-    @Inject
-    private EntityManager em;
+    @Inject @Named("profile")
+    private String profile;
+
+    private EntityManager em = Persistence
+            .createEntityManagerFactory("production".equals(profile) ? "db" : "dbtest")
+            .createEntityManager();
 
     @Override
     public List<Transaction> findTransactions() {
