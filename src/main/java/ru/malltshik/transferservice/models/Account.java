@@ -7,9 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Account entity what stored account information
+ */
 @Entity
 @Table(name = "account")
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
 
     @Id

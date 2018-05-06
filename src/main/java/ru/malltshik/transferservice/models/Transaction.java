@@ -9,7 +9,9 @@ import ru.malltshik.transferservice.validations.annatations.ExistedAccount;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
+/**
+ * Transaction entity for store transaction operations, validate and apply them.
+ */
 @Entity
 @Table(name = "transaction")
 @Data

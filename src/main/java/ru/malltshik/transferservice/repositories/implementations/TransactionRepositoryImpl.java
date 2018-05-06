@@ -11,7 +11,8 @@ import java.util.List;
 
 public class TransactionRepositoryImpl implements TransactionRepository {
 
-    @Inject @Named("profile")
+    @Inject
+    @Named("profile")
     private String profile;
 
     private EntityManager em = Persistence

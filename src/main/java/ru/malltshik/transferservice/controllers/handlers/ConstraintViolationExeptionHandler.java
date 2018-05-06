@@ -1,4 +1,4 @@
-package ru.malltshik.transferservice.configuration;
+package ru.malltshik.transferservice.controllers.handlers;
 
 import javax.inject.Singleton;
 import javax.validation.ConstraintViolation;
@@ -7,13 +7,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.util.Collections;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Exception handler for ConstraintViolationException
+ */
 @Singleton
 @Provider
-public class ConstraintViolationMapper implements ExceptionMapper<ConstraintViolationException> {
+public class ConstraintViolationExeptionHandler implements ExceptionMapper<ConstraintViolationException> {
 
     @Override
     public Response toResponse(ConstraintViolationException e) {

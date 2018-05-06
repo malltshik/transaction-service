@@ -7,14 +7,11 @@ import ru.malltshik.transferservice.repositories.TransactionRepository;
 import ru.malltshik.transferservice.services.TransferService;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
-import static ru.malltshik.transferservice.models.enums.TransactionStatus.COMPLETED;
-import static ru.malltshik.transferservice.models.enums.TransactionStatus.FAILED;
-import static ru.malltshik.transferservice.models.enums.TransactionStatus.REJECTED;
+import static ru.malltshik.transferservice.models.enums.TransactionStatus.*;
 
 public class TransferServiceImpl implements TransferService {
 

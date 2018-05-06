@@ -1,10 +1,12 @@
 package ru.malltshik.transferservice.services;
 
-import org.jvnet.hk2.annotations.Service;
 import ru.malltshik.transferservice.models.Transaction;
 
 import java.util.List;
 
+/**
+ * Service handle transaction operations and provide transaction information
+ */
 public interface TransferService {
 
     List<Transaction> findTransactions();

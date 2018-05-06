@@ -1,4 +1,4 @@
-package ru.malltshik.transferservice.configuration;
+package ru.malltshik.transferservice.controllers.handlers;
 
 import javax.inject.Singleton;
 import javax.ws.rs.NotFoundException;
@@ -12,6 +12,9 @@ import java.util.Collections;
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+/**
+ * NotFoundException handler
+ */
 @Provider
 @Singleton
 public class NotFoundExceptionHandler implements ExceptionMapper<NotFoundException> {

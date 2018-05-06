@@ -1,6 +1,7 @@
 package ru.malltshik.transferservice.configuration;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import ru.malltshik.transferservice.controllers.handlers.ConstraintViolationExeptionHandler;
 import ru.malltshik.transferservice.repositories.AccountRepository;
 import ru.malltshik.transferservice.repositories.TransactionRepository;
 import ru.malltshik.transferservice.repositories.implementations.AccountRepositoryImpl;
@@ -10,6 +11,9 @@ import ru.malltshik.transferservice.services.implementations.TransferServiceImpl
 
 import javax.inject.Singleton;
 
+/**
+ * HK2 Injection bean configuration class
+ */
 public class BeansConfiguration extends AbstractBinder {
 
     private final boolean production;
@@ -23,7 +27,7 @@ public class BeansConfiguration extends AbstractBinder {
         bind(TransferServiceImpl.class).to(TransferService.class).in(Singleton.class);
         bind(TransactionRepositoryImpl.class).to(TransactionRepository.class).in(Singleton.class);
         bind(AccountRepositoryImpl.class).to(AccountRepository.class).in(Singleton.class);
-        bind(new ConstraintViolationMapper());
+        bind(new ConstraintViolationExeptionHandler());
         bind(production ? "production" : "testing").to(String.class).named("profile");
     }
 }
